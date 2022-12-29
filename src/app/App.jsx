@@ -1,8 +1,9 @@
-import React, { useState } from "react";
 import InputGroup from "../components/shared/form/InputGroup";
 import { Container } from "../components/UI/Container/Container";
-import { deepClone, transforObj } from "../util/Object-utilits";
 import { Button } from "../components/UI/button/Button";
+import UseForm from "../Hooks/UseForm";
+import UserData from "../components/ShowDisplayData/UserData";
+
 const init = {
   name: {
     text: "",
@@ -21,73 +22,10 @@ const init = {
   },
 };
 const App = () => {
-  const [state, setState] = useState({ ...init });
+  const {users, state, handleChange, handleBlur, handleFocus, handleSubmit } =
+    UseForm({ init });
 
-  const handleChange = (e) => {
-    const oldState = deepClone(state);
-    let { name, value } = e.target;
-    oldState[name].text = value;
-    setState(oldState);
-    const {error} = checkValidity(state)
-
-    if (error[name] && oldState[name].text){
-      oldState[name].error = ''
-      setState(oldState)
-    }
-  };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const { error, isValid } = checkValidity(state);
-    const formData = transforObj(state, 'text')
-    if (isValid) {
-      console.log(formData);
-    } else {
-      const oldState = deepClone(state);
-      Object.keys(error).forEach((key) => {
-        oldState[key].error = error[key];
-      });
-      setState(oldState);
-    }
-  };
-
-  const handleBlur = (e) => {
-    const { error, isValid } = checkValidity(state);
-    let key = e.target.name;
-    let formFoused = transforObj(state, "focus");
-    if (formFoused[key] && error[key]) {
-      const oldState = deepClone(state);
-      oldState[key].error = error[key];
-      setState(oldState);
-    }
-  };
-  const handleFocus = (e) => {
-    const oldState = deepClone(state);
-    let key = e.target.name;
-    oldState[key].focus = true;
-    setState(oldState);
-  };
-
-  const checkValidity = (values) => {
-    const errorCheck = {};
-
-    let formData = transforObj(values, "text");
-    if (!formData.name) {
-      errorCheck.name = "Invalid name!";
-    }
-    if (!formData.email) {
-      errorCheck.email = "Invalid email!";
-    }
-    if (!formData.password) {
-      errorCheck.password = "Invalid password!";
-    }
-    return {
-      error: errorCheck,
-      isValid: Object.keys(errorCheck).length === 0,
-    };
-  };
   return (
-    // onblur, onfoucs
-
     <Container>
       <form onSubmit={handleSubmit}>
         <InputGroup
@@ -127,6 +65,10 @@ const App = () => {
         />
         <Button>Submit</Button>
       </form>
+      
+      {
+        users.length > 0 && <UserData data={users}/>
+      }
     </Container>
   );
 };

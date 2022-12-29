@@ -7,6 +7,10 @@ import './main.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
+    <div className='title'>
+      <h1>Login</h1>
+      <p>Access your account</p>
+    </div>
     <App/>
   </React.StrictMode>
 )

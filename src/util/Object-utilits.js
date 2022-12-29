@@ -1,3 +1,5 @@
+import { getId } from "./CustomGenerateId";
+
 export const isObjEmpty = (obj) => {
   return Object.keys(obj).length === 0;
 };
@@ -7,8 +9,11 @@ export const deepClone = (obj) => {
 };
 
 export const transforObj = (obj, property) => {
-  return Object.keys(obj).reduce((acc, key) => {
+  let formData = Object.keys(obj).reduce((acc, key) => {
     acc[key] = obj[key][property]
     return acc
   }, {})
+
+  formData['id'] = getId.next().value;
+  return formData
 }
