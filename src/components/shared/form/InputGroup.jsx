@@ -10,11 +10,11 @@ const Wrapper = styled.div`
   padding: 8px;
   border-radius: 5px;
 `
-const InputGroup = ({label, onchange, onblur, onfoucs, placeholder, name, value, error}) => {
+const InputGroup = ({label, onchange, type, onblur, onfoucs, placeholder, name, value, error}) => {
   return (
     <Wrapper>
       <Label>{label}</Label>
-      <TextInput onChange={onchange} onFocus={onfoucs} onBlur={onblur} name={name} placeholder={placeholder} value={value}/>
+      <TextInput onChange={onchange} type={type} onFocus={onfoucs} onBlur={onblur} name={name} placeholder={placeholder} value={value}/>
       <Error>{error}</Error>
     </Wrapper>
   )
